@@ -43,9 +43,4 @@ public class UserServlet extends HttpServlet {
             req.setAttribute("user", users);
             getServletContext().getRequestDispatcher("/index.jsp").forward(req, resp);
         }
-
-    @Override
-    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-    }
 }
