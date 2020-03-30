@@ -11,12 +11,16 @@ import model.User;
 
 public class UserService {
 
-    public void addUser(User user) throws SQLException {
-        getBankClientDAO().addUser(user);
-    }
-
-    public void checkUser(User user) throws SQLException {
-        getBankClientDAO().checkUser(user);
+    public void addUser(User user) {
+    try {
+        if(user.getId() != null) {
+            updateUser(user);
+        } else {
+            getBankClientDAO().addUser(user);
+        }
+    } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public void deleteUser(Long id) throws SQLException {
@@ -27,8 +31,14 @@ public class UserService {
         getBankClientDAO().updateUser(user);
     }
 
-    public ArrayList<User> getAllUsers() throws SQLException {
-        return getBankClientDAO().getAllUsers();
+    public ArrayList<User> getAllUsers() {
+        ArrayList<User> users = null;
+        try {
+            users = getBankClientDAO().getAllUsers();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return users;
     }
 
     public User getUserById(Long id) throws SQLException {

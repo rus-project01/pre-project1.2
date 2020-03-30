@@ -25,21 +25,6 @@ public class UserDAO {
         }
     }
 
-    public void checkUser(User user) {
-        try {
-            PreparedStatement ps = connection.prepareStatement("select * from users where name = ?");
-            ps.setString(1, user.getName());
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                updateUser(user);
-            } else {
-                addUser(user);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     public void deleteUser(Long id) {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("delete from users where id=?");
@@ -63,23 +48,18 @@ public class UserDAO {
         }
     }
 
-    public ArrayList<User> getAllUsers() {
+    public ArrayList<User> getAllUsers() throws SQLException{
         ArrayList<User> users = new ArrayList<>();
-        try {
-            Statement statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery("select * from users");
-            while (rs.next()) {
-                User user = new User();
-                user.setId(rs.getLong("id"));
-                user.setName(rs.getString("name"));
-                user.setPassword(rs.getString("password"));
-                user.setMoney(rs.getLong("money"));
-                users.add(user);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
+        Statement statement = connection.createStatement();
+        ResultSet rs = statement.executeQuery("select * from users");
+        while (rs.next()) {
+            User user = new User();
+            user.setId(rs.getLong("id"));
+            user.setName(rs.getString("name"));
+            user.setPassword(rs.getString("password"));
+            user.setMoney(rs.getLong("money"));
+            users.add(user);
         }
-
         return users;
     }
 
